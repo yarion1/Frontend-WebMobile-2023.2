@@ -5,7 +5,7 @@
                 <v-toolbar-title class="text-center " style="color: red;"> Cinescope </v-toolbar-title>
             </v-app-bar>
 
-            
+
             <v-main class="main">
                 <v-container fluid class="d-flex justify-center mt-15">
                     <v-row class="w-100 d-flex justify-center">
@@ -13,21 +13,28 @@
                         <v-col cols="12" sm="5" class="bg-transparent">
                             <v-card class="pa-4 elevation-0 bg-transparent">
                                 <v-card-text class="bg-transparent">
-                                    <h4 class="text-h4 white--text">Quer saber o que a galera está dizendo sobre seu filme ou série favorita?</h4>
+                                    <h4 class="text-h4 white--text">Quer saber o que a galera está dizendo sobre seu filme
+                                        ou série favorita?</h4>
                                 </v-card-text>
                             </v-card>
                         </v-col>
 
                         <!-- Parte direita com formulário de login -->
                         <v-col cols="12" sm="5">
-                            <v-card class="pa-4">
-                                <v-card-title class="text-h6">Login</v-card-title>
+                            <v-card class="pa-4" color="#111111">
+                                <v-card-title class="text-h4">Login</v-card-title>
                                 <v-card-text>
                                     <v-form @submit.prevent="login">
-                                        <v-text-field v-model="username" label="Usuário" outlined></v-text-field>
+                                        <v-text-field v-model="username" label="Usuário"
+                                            variant="underlined"></v-text-field>
                                         <v-text-field v-model="password" label="Senha" type="password"
-                                            outlined></v-text-field>
-                                        <v-btn color="primary" type="submit">Entrar</v-btn>
+                                            variant="underlined"></v-text-field>
+                                        <v-col cols="12" class="text-center">
+                                            <v-btn color="primary" dark type="submit">Logar</v-btn>
+                                            <p class="mt-2">
+                                                Ainda não tem uma conta? <a href="#">Clique aqui</a>
+                                            </p>
+                                        </v-col>
                                     </v-form>
                                 </v-card-text>
                             </v-card>
