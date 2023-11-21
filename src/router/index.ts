@@ -16,6 +16,11 @@ const routes = [
         name: 'Register',
         component: () => import('@/views/Register.vue'),
       },
+      {
+        path: 'movie/:id',
+        name: 'movie',
+        component: () => import('@/components/Movies/Movie.vue'),
+      }
     ],
   },
   {

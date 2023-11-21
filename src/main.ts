@@ -1,20 +1,16 @@
-/**
- * main.ts
- *
- * Bootstraps Vuetify and other plugins then mounts the App`
- */
+// main.ts
 
-// Components
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
+import axios from './services/api';
+import { registerPlugins } from '@/plugins';
 
-// Composables
-import { createApp } from 'vue'
+const app = createApp(App);
 
-// Plugins
-import { registerPlugins } from '@/plugins'
+// Configurando o Axios como um plugin global
+app.config.globalProperties.$http = axios;
 
-const app = createApp(App)
+// Registrando outros plugins
+registerPlugins(app);
 
-registerPlugins(app)
-
-app.mount('#app')
+app.mount('#app');
