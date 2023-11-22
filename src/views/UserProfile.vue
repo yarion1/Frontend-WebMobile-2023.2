@@ -60,6 +60,10 @@ export default {
   
 <style scoped>
 .main {
+    background-image: url('../assets/bg-login.png');
+    /* Substitua o caminho pela sua imagem de fundo */
+    background-size: cover;
+    background-position: center;
     width: 100vw;
     display: flex;
     justify-content: center;
