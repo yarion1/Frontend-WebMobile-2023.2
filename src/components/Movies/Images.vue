@@ -1,11 +1,11 @@
 <template>
-  <div class="container mx-auto  border-b border-gray-600 px-4 py-4">
+  <div class="container mx-auto border-b border-gray-600 px-4 py-4">
     <h2 class="text-4xl font-semibold mb-5">
       Images
     </h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <div :key="index" v-for="(image, index) in images" class="mr-2 mt-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div :key="index" v-for="(image, index) in images.slice(0,10)" class="mr-2 mt-2">
         <img
           @click="openModel(image)"
           :src="movieImage(image)"
