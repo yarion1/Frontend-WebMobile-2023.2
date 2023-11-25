@@ -1,52 +1,77 @@
 <template>
   <v-container class="wrapper">
-    <v-row color="#171F26">
-      <h2 class="title">Cinescope</h2>
-      <div class="actionWrapper">
-        <a href="#">Filmes</a>
-        <a href="#">Atores</a>
-        <a href="#">Perfil</a>
-      </div>
-      <v-text-field 
-        solo 
-        flat 
-        rounded="lg" 
-        color="primary" 
-        variant="outlined" 
-        prepend-inner-icon="mdi-magnify" />
-    </v-row>
+    <div class="text-red title">Cinescope</div>
+    <Menu :isMobile="breakpoint" />
+    <SearchField :isMobile="breakpoint" />
+    <Profile />
   </v-container>
 </template>
   
 <script setup lang="ts">
 
+import Menu from '@/components/items/Menu.vue'
+import SearchField from '@/components/items/TextField.vue'
+import Profile from '@/components/items/Profile.vue'
 
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+
+const screenWidth = ref(window.innerWidth);
+
+const breakpoint = computed(() => screenWidth.value < 576);
+
+onMounted(() => {
+  window.addEventListener('resize', handleScreenSizeChange);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleScreenSizeChange);
+});
+
+function handleScreenSizeChange() {
+  screenWidth.value = window.innerWidth;
+}
 </script>
 
 <style scoped>
 .wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 75px;
   max-width: 100%;
   background-color: #171F26;
 }
 
 .title {
-  color: #D90D1E;
-  font-weight: 600;
-  font-size: 1.5rem;
+  font-weight: 700;
   padding: 1rem 2rem;
 }
 
-a{
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+}
+
+a {
   text-decoration: none;
   background-color: transparent;
   color: white;
   font-size: 1.125rem;
   font-weight: 500;
 }
-.actionWrapper{
+
+.actionWrapper {
   margin-top: 25px;
   display: flex;
   flex-direction: row;
-  gap:10px
+  gap: 10px
 }
 </style>
