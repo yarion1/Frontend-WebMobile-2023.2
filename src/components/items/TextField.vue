@@ -29,7 +29,7 @@ const isSearching = ref(false)
 const search = ref('')
 
 const RequestSearch =() => {
-  console.log('Roda de busca', search.value); // como o valor usado tem que ser por referencia ele tem ser passado com .value na frente 
+  console.log('Roda de busca', search.value); 
 }
 
 </script>
