@@ -1,28 +1,16 @@
 <template>
   <div class="register-background">
     <v-app-bar app color="#111111" dark>
-      <v-toolbar-title class="text-center " style="color: red;"> Cinescope </v-toolbar-title>
+      <v-toolbar-title class="text-center" style="color: red">
+        Cinescope
+      </v-toolbar-title>
     </v-app-bar>
     <v-container class="register-container">
-      <v-form @submit="register">
+      <v-form  @submit.prevent="register">
         <v-card max-width="700" class="mx-auto my auto" color="#111111">
           <v-card-title class="text-center text-h4"> Registre-se </v-card-title>
           <v-card-text>
             <v-row>
-              <v-col cols="6">
-                <v-text-field
-                  v-model="firstName"
-                  label="Nome"
-                  variant="underlined"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                  v-model="lastName"
-                  label="Sobrenome"
-                  variant="underlined"
-                ></v-text-field>
-              </v-col>
               <v-col cols="6">
                 <v-text-field
                   v-model="username"
@@ -70,11 +58,13 @@
 </template>
 
 <script>
+
+import {backendClient} from '@/services/api';
+
 export default {
   data() {
     return {
-      firstName: "",
-      lastName: "",
+      serverUrl: '/auth/register',
       username: "",
       email: "",
       password: "",
@@ -82,15 +72,20 @@ export default {
     };
   },
   methods: {
-    register() {
-      this.$store.dispatch("register", {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        confirmPassword: this.confirmPassword,
-      });
+    async register() {
+      try {
+        const response = await backendClient.post(`${this.serverUrl}`, {
+          name: this.username,
+          email: this.email,
+          password: this.password,
+        });
+
+        console.log(response.data);
+
+        this.$router.push('/login');
+      } catch (error) {
+        console.error('Erro ao registrar:', error.response.data);
+      }
     },
   },
 };

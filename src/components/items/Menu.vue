@@ -5,12 +5,12 @@
     </template>
     <v-list bg-color="#171F26">
       <v-list-item v-for="(item, i) in items" :key="i">
-        <v-btn variant="text" :prepend-icon="item.icon" @click="redirect(item.rota)">{{ item.title }}</v-btn>
+        <v-btn variant="text" :prepend-icon="item.icon" :to=item.rota>{{ item.title }}</v-btn>
       </v-list-item>
     </v-list>
   </v-menu>
 
-  <v-btn class="desktopButton" v-else v-for="(item, i) in items" :key="i" variant="text" :prepend-icon="item.icon" @click="redirect(item.rota)">{{ item.title }}</v-btn>
+  <v-btn class="desktopButton" v-else v-for="(item, i) in items" :key="i" variant="text" :prepend-icon="item.icon" :to=item.rota>{{ item.title }}</v-btn>
 </template>
 
 <script setup lang="ts">
@@ -18,18 +18,14 @@ const items = [
   {
     title: 'Filmes',
     icon: 'mdi-movie',
-    rota: "/filmes"
+    rota: "/home"
   },
   {
     title: 'Atores',
     icon: 'mdi-account' ,
-    rota: '/atores'
+    rota: '/actors'
   },
 ]
-
-const redirect = (rota: string) => {
-  console.log('redirecoinar para', rota)
-} 
 
 defineProps({
   isMobile: {

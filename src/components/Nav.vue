@@ -33,6 +33,7 @@ function handleScreenSizeChange() {
 </script>
 
 <style scoped>
+
 .wrapper {
   display: flex;
   align-items: center;
@@ -40,7 +41,8 @@ function handleScreenSizeChange() {
   justify-content: space-around;
   height: 75px;
   max-width: 100%;
-  background-color: #171F26;
+  background-color: bg-gray-900;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Adiciona uma sombra */
 }
 
 .title {
@@ -72,6 +74,6 @@ a {
   margin-top: 25px;
   display: flex;
   flex-direction: row;
-  gap: 10px
+  gap: 10px;
 }
 </style>

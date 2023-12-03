@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <div class="container mx-auto flex flex-wrap mt-5 md:mt-20 border-b border-gray-600 pb-2">
-      <img :src="posterPath" alt="" class="w-full md:w-64 md:mr-4 mb-4 md:mb-0" />
+  <div class="container mx-auto flex flex-wrap mt-0 md:mt-0">
+    <div
+      class="container mx-auto flex flex-wrap mt-20 md:mt-20 border-b border-gray-600 pb-2"
+    >
+      <img
+        :src="posterPath"
+        alt=""
+        class="w-full md:w-64 md:mr-5 mb-5 md:mb-0"
+      />
       <div class="mt-4 md:w-2/3">
         <h1 class="text-4xl font-semibold">{{ this.movie.title }}</h1>
         <span class="text-gray-500 text-sm flex items-center">
@@ -28,7 +34,10 @@
           <span class="mt-5 font-semibold">Featured Cast</span>
           <div class="flex flex-wrap">
             <div :key="index" v-for="(crew, index) in movie.credits.crew">
-              <div v-if="index < 2" class="flex flex-col mt-3 md:mt-5 mr-4 md:mr-5 mb-2">
+              <div
+                v-if="index < 2"
+                class="flex flex-col mt-3 md:mt-5 mr-4 md:mr-5 mb-2"
+              >
                 <span>{{ crew.name }}</span>
                 <span class="text-gray-500">{{ crew.job }}</span>
               </div>
@@ -54,8 +63,13 @@
           <a
             href="#"
             class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
+            @click.prevent="addToFavorites"
           >
-            <img src="@/assets/images/heart-white.png" alt="" class="w-4 h-4 md:w-6 md:h-6" />
+            <img
+              src="@/assets/images/heart-white.png"
+              alt=""
+              class="w-4 h-4 md:w-6 md:h-6"
+            />
             <span class="ml-2">Favourite</span>
           </a>
         </div>
@@ -63,14 +77,22 @@
     </div>
 
     <Cast :casts="movie.credits.cast" />
-    <Images :images="movie.images.backdrops" v-on:on-image-click="showImageModel" />
-    <MediaModel v-model="modelOpen" :mediaURL="mediaURL" :isVideo="this.isVideo" />
+    <Images
+      :images="movie.images.backdrops"
+      v-on:on-image-click="showImageModel"
+    />
+    <MediaModel
+      v-model="modelOpen"
+      :mediaURL="mediaURL"
+      :isVideo="this.isVideo"
+    />
   </div>
 </template>
 <script>
 import Cast from "./Cast";
 import Images from "./Images";
 import MediaModel from "../models/MediaModel";
+import { backendClient } from "@/services/api";
 
 export default {
   components: {
@@ -108,6 +130,32 @@ export default {
         "/movie/" + movieId + "?append_to_response=credits,videos,images"
       );
       this.movie = response.data;
+    },
+    async addToFavorites() {
+      const content = {
+        adult: this.movie.adult,
+        backdrop_path: this.movie.backdrop_path,
+        genre_ids: this.movie.genres,
+        id: this.movie.id,
+        original_language: this.movie.original_language,
+        original_title: this.movie.original_title,
+        overview: this.movie.overview,
+        popularity: this.movie.popularity,
+        poster_path: this.movie.poster_path,
+        release_date: this.movie.release_date,
+        title: this.movie.title,
+        video: this.movie.video,
+        vote_average: this.movie.vote_average,
+        vote_count: this.movie.vote_count,
+      };
+
+      try {
+        const response = await backendClient.patch("/favorites/add", {
+          content: content,
+        });
+      } catch (error) {
+        console.error("Erro ao adicionar aos favoritos:", error.response.data);
+      }
     },
 
     openYouTubeModel() {

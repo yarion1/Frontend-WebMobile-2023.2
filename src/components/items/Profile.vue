@@ -5,7 +5,7 @@
     </template>
     <v-list bg-color="#171F26">
       <v-list-item v-for="(item, i) in items" :key="i">
-        <v-btn variant="text" :prepend-icon="item.icon" @click="redirect(item.rota)">{{ item.title }}</v-btn>
+        <v-btn variant="text" :prepend-icon="item.icon" :to=item.rota>{{ item.title }}</v-btn>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -34,10 +34,6 @@ const items = [
     rota: '/sair'
   },
 ]
-
-const redirect = (rota: string) => {
-  console.log('redirecoinar para', rota)
-} 
 </script>
 
 <style scoped></style>
