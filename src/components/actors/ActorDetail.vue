@@ -1,20 +1,22 @@
 <template>
   <div>
-    <div class="container mx-auto px-4 py-16 flex">
-      <div class="flex-none">
+    <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
+      <div class="flex-none mb-8 md:mb-0 md:mr-12">
         <img
           :src="'https://image.tmdb.org/t/p/w300/' + this.actor.profile_path"
           alt=""
+          class="w-48 h-auto"
         />
 
-        <ul class="flex items-center mt-4">
+        <ul class="flex items-center mt-4 space-x-4">
           <li>
             <a
               :href="'https://facebook.com/' + socialDetails.facebook_id"
               title="Facebook"
+              class="text-gray-400 hover:text-white"
             >
               <svg
-                class="fill-current text-gray-400 hover:text-white w-6"
+                class="fill-current w-6 h-6"
                 viewBox="0 0 448 512"
               >
                 <path
@@ -71,29 +73,29 @@
         </ul>
       </div>
 
-      <div class="ml-20">
-        <h2 class="text-4xl font-semibold">
+      <div class="flex flex-col">
+        <h2 class="text-4xl font-semibold mb-4">
           {{ this.actor.name }}
         </h2>
 
-        <div class="flex">
+        <div class="flex items-center mb-4">
           <svg
-            class="fill-current text-gray-400 hover:text-white w-4"
+            class="fill-current text-gray-400 w-4 h-4 mr-2"
             viewBox="0 0 448 512"
           >
             <path
               d="M448 384c-28.02 0-31.26-32-74.5-32-43.43 0-46.825 32-74.75 32-27.695 0-31.454-32-74.75-32-42.842 0-47.218 32-74.5 32-28.148 0-31.202-32-74.75-32-43.547 0-46.653 32-74.75 32v-80c0-26.5 21.5-48 48-48h16V112h64v144h64V112h64v144h64V112h64v144h16c26.5 0 48 21.5 48 48v80zm0 128H0v-96c43.356 0 46.767-32 74.75-32 27.951 0 31.253 32 74.75 32 42.843 0 47.217-32 74.5-32 28.148 0 31.201 32 74.75 32 43.357 0 46.767-32 74.75-32 27.488 0 31.252 32 74.5 32v96zM96 96c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40zm128 0c-17.75 0-32-14.25-32-32 0-31 32-23 32-64 12 0 32 29.5 32 56s-14.25 40-32 40z"
             />
           </svg>
-          <span class="ml-2 text-gray-400 text-sm">1988-12-16 (31)</span>
+          <span class="text-gray-400 text-sm">1988-12-16 (31)</span>
         </div>
-        <p class="text-gray-300 mt-8">
+        <p class="text-gray-300 mb-8">
           {{ this.actor.biography }}
         </p>
 
-        <h4 class="mt-12 font-semibold">Known For</h4>
+        <h4 class="text-2xl font-semibold mb-4">Known For</h4>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 gap-8">
           <div :key="movie.id" v-for="movie in this.knownFor">
             <router-link
               :to="`/movie/${movie.id}`"
@@ -156,13 +158,13 @@ export default {
       const response = await this.$http.get(
         "https://api.themoviedb.org/3/person/" + actorId + "/combined_credits"
       );
-      console.log(response.data.cast);
       const filteredCredits = response.data.cast.filter(
         (credit) => credit.media_type === "movie"
       );
       const sortedCredits = filteredCredits.sort((a, b) => b.popularity - a.popularity);
       this.castMovies = response.data.cast;
-      this.knownFor = sortedCredits.slice(0, Math.min(sortedCredits.length, 5));
+      this.castMovies = sortedCredits.slice(0, Math.min(sortedCredits.length, 10));
+      this.knownFor = sortedCredits.slice(0, Math.min(sortedCredits.length, 10));
     },
 
     movieImage(movie) {
