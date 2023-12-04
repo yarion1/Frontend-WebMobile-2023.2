@@ -135,7 +135,7 @@ export default {
       const content = {
         adult: this.movie.adult,
         backdrop_path: this.movie.backdrop_path,
-        genre_ids: this.movie.genres,
+        genre_ids: this.movie.genres.map((genre) => genre.id),
         id: this.movie.id,
         original_language: this.movie.original_language,
         original_title: this.movie.original_title,

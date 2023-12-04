@@ -16,7 +16,7 @@ const items = [
   {
     title: 'Perfil',
     icon: 'mdi-account-circle',
-    rota: "/perfil"
+    rota: "/profile"
   },
   {
     title: 'Playlists',
@@ -26,7 +26,7 @@ const items = [
   {
     title: 'Favoritos',
     icon: 'mdi-star' ,
-    rota: '/favoritos'
+    rota: '/favorites'
   },
   {
     title: 'Sair',

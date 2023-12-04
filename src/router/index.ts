@@ -23,6 +23,16 @@ const routes = [
         component: () => import("@/views/Sair.vue"),
       },
       {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/UserProfile.vue'),
+      },
+      {
+        path: "/favorites",
+        name: "favorites",
+        component: () => import("@/components/Front/Favorite.vue"),
+      },
+      {
         path: "/movie/:id",
         name: "movie",
         component: () => import("@/components/Movies/Movie.vue"),
