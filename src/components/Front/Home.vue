@@ -4,7 +4,7 @@
     <UpcomingMovies />
   </div>
 </template>
-
+ 
 <script>
 import PopularMovies from "@/components/Front/PopularMovies.vue";
 import UpcomingMovies from "@/components/Front/UpcomingMovies.vue";
