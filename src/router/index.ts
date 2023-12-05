@@ -5,6 +5,7 @@ const routes = [
   {
     path: "/",
     component: () => import("@/layouts/default/Default.vue"),
+    meta: { requiresAuth: true },
     children: [
       {
         path: "/home",

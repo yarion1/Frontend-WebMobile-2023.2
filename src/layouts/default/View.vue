@@ -10,3 +10,8 @@
 //
  import Layout from "@/layouts/Layout.vue";
 </script>
+<style>
+.v-main {
+  background-color: #111827;
+}
+</style>

@@ -12,7 +12,7 @@
         <h1 class="text-4xl font-semibold">{{ this.movie.title }}</h1>
         <span class="text-gray-500 text-sm flex items-center">
           <svg
-            class="fill-current text-yellow-500 w-4 h-4 mr-1"
+            class="fill-current text-yellow-500 w-4 h-10 mr-1"
             viewBox="0 0 24 24"
           >
             <g data-name="Layer 2">
@@ -153,6 +153,7 @@ export default {
         const response = await backendClient.patch("/favorites/add", {
           content: content,
         });
+        this.$toast.success('Filme removido com sucesso');
       } catch (error) {
         console.error("Erro ao adicionar aos favoritos:", error.response.data);
       }
