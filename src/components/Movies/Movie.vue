@@ -60,8 +60,8 @@
             <span class="ml-2">Play Trailer</span>
           </a>
 
-          <a
-            href="#"
+          <button
+            type="button"
             class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
             @click.prevent="addToFavorites"
           >
@@ -71,7 +71,7 @@
               class="w-4 h-4 md:w-6 md:h-6"
             />
             <span class="ml-2">Favourite</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@ export default {
         const response = await backendClient.patch("/favorites/add", {
           content: content,
         });
-        this.$toast.success('Filme removido com sucesso');
+        this.$toast.success("Filme removido com sucesso");
       } catch (error) {
         console.error("Erro ao adicionar aos favoritos:", error.response.data);
       }

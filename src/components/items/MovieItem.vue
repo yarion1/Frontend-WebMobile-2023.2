@@ -6,7 +6,7 @@
         class="hover:opacity-75 tansition easy-in-out duration-150"
       />
     </router-link>
-    <h3>{{ movie.title }}</h3>
+    <h3>{{movie.title.length <=20 ? movie.title : (movie.title).slice(0,30)+'...'}}</h3>
     <div class="flex">
       <svg
         class="fill-current text-yellow-500 w-4 h-4 mt-1"
@@ -18,7 +18,7 @@
             data-name="star"
           />
         </g></svg><span class="ml-2"
-        >{{ movie.vote_average * 10 }}% | {{ movie.release_date }} </span
+        >{{ (movie.vote_average * 10).toFixed(1) }}% | {{ movie.release_date }} </span
       ><br />
     </div>
     <v-col cols="8" lg="12">
@@ -78,7 +78,7 @@ export default {
         .patch(`/favorites/remove/${movieId}`)
         .then((response) => {
           this.$emit("remove-favorite", movieId);
-          this.$toast.success('Filme removido com sucesso');
+          this.$toast.success('Filme adcionado com sucesso');
         })
         .catch((error) => {
           console.log(error);
