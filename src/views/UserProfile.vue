@@ -1,13 +1,11 @@
 <template>
     <v-app>
-        <AppHeader></AppHeader>
-
         <v-main class="main">
             <v-container fluid>
                 <!-- Importando e usando o componente da barra de aplicativos -->
                 <v-row justify="center">
                     <v-col cols="12" sm="8" md="6">
-                        <v-card class="mt-5" color="#111111">
+                        <v-card class="mt-5 card-container" color="#1a202c">
                             <v-card-title class="headline">Perfil do Usuário</v-card-title>
 
                             <v-card-text>
@@ -17,7 +15,7 @@
                                     <v-text-field v-model="user.email" label="E-mail" outlined></v-text-field>
                                     <v-text-field v-model="user.password" label="Nova Senha" type="password"
                                         outlined></v-text-field>
-                                    <v-text-field v-model="user.confirmPassword" label="Confirmar Senha" type="password"
+                                    <v-text-field v-model="user.confirmPassword" label="Senha Atual" type="password"
                                         outlined></v-text-field>
 
                                     <v-btn color="red" type="submit">Salvar Alterações</v-btn>
@@ -33,6 +31,7 @@
   
 <script>
 import AppHeader from '@/components/AppHeader.vue';
+import { backendClient } from "@/services/api";
 
 export default {
     components: {
@@ -48,11 +47,56 @@ export default {
             },
         };
     },
+
+    mounted() {
+        // Executa a função ao ser renderizado
+        this.fetchUserData();
+    },
+
     methods: {
-        updateProfile() {
-            // Lógica para atualizar o perfil do usuário
-            // Você pode enviar esses dados para o seu servidor
-            console.log('Perfil atualizado:', this.user);
+        async updateProfile() {
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+                },
+            }
+
+            try {
+                const { data } = await backendClient.put(`/users`, {
+                    name: this.user.name,
+                    email: this.user.email,
+                    password: this.user.confirmPassword,
+                    newPassword: this.user.password
+                }, config);
+
+                if (data) {
+                    alert("Usuário Atualizado")
+                    this.fetchUserData()
+                    this.user.password = "",
+                    this.user.confirmPassword = ""
+                } 
+            } catch (error) {
+                if (error.response.data.message) {
+                    alert(error.response.data.message)
+                }
+                console.error("Erro ao listar informações do usuário");
+            }
+        },
+        async fetchUserData() {
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+                },
+            }
+
+            try {
+                const { data } = await backendClient.get(`/users`, config);
+
+                this.user.name = data.name;
+                this.user.email = data.email;
+            } catch (error) {
+                console.error("Erro ao listar informações do usuário");
+            }
         },
     },
 };
@@ -60,13 +104,17 @@ export default {
   
 <style scoped>
 .main {
-    background-image: url('../assets/bg-login.png');
-    /* Substitua o caminho pela sua imagem de fundo */
-    background-size: cover;
-    background-position: center;
+    background-color: #1a202c;
     width: 100vw;
     display: flex;
     justify-content: center;
+}
+
+.card-container {
+    border: 2px solid #39424f;
+    /* Cor mais escura que o fundo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Sombra para realçar */
 }
 
 /* Adicione estilos específicos do componente aqui, se necessário */

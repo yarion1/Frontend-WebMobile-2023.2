@@ -1,6 +1,6 @@
 <template>
   <div id="example">
-    <h2 class="uppercase text-yellow-500 font-semibold text-lg mt-20 ml-2">
+    <h2 class="uppercase text-red-500 font-semibold text-lg mt-20 ml-2">
       Upcoming Movies
     </h2>
     <swiper
