@@ -8,3 +8,8 @@
 <script lang="ts" setup>
 import Nav from "@/components/Nav.vue";
 </script>
+<style scoped>
+* {
+  background-color: #1a202c ;
+}
+</style>

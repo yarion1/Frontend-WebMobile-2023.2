@@ -1,6 +1,6 @@
 <template>
     <div class="mx-5">
-      <h2 class="uppercase py-16 text-yellow-500 text-lg font-semibold">
+      <h2 class="uppercase py-16 text-red-500 text-lg font-semibold">
         Popular Movies
       </h2>
   

@@ -21,15 +21,26 @@
         >{{ movie.vote_average * 10 }}% | {{ movie.release_date }} </span
       ><br />
     </div>
-    <span class="text-sm text-gray-500">
-      <span :key="genre" v-for="(genre, index) in movie.genre_ids">
-        {{ genreTypeName(genre, index) }}
+    <v-col cols="8" lg="12">
+      <span class="text-sm text-gray-500">
+        <span :key="genre" v-for="(genre, index) in movie.genre_ids">
+          {{ genreTypeName(genre, index) }}
+        </span>
       </span>
-    </span>
+      <button
+        v-if="IsfavoritePage"
+        @click="removeFromFavorites(movie.id)"
+        class="rounded bg-red-500 px-5 md:px-5 py-2 md:py-3 inline-flex text-black ml-0 md:ml-5 mb-2 md:mb-0 cursor-pointer"
+        block
+      >
+        Remover dos favoritos
+      </button>
+    </v-col>
   </div>
 </template>
 
 <script>
+import { backendClient } from "@/services/api";
 export default {
   props: {
     movie: {
@@ -37,6 +48,10 @@ export default {
     },
     genres: {
       required: true,
+    },
+    IsfavoritePage: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -57,6 +72,17 @@ export default {
           }
         }
       }
+    },
+    removeFromFavorites(movieId) {
+      backendClient
+        .patch(`/favorites/remove/${movieId}`)
+        .then((response) => {
+          this.$emit("remove-favorite", movieId);
+          this.$toast.success('Filme removido com sucesso');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
