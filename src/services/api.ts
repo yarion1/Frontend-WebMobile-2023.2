@@ -10,7 +10,7 @@ const tmdbClient = axios.create({
 });
 
 const backendClient = axios.create({
- baseURL: "http://localhost:3002",
+ baseURL: "http://localhost:3000",
   headers: {
     "Content-type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("access_token")}`,

@@ -40,8 +40,13 @@
             </v-btn>
 
             <v-card-title class="headline text-center text-white">PlayLists</v-card-title>
+            
+            <v-btn v-if="allPlaylists.length == 0" class="mx-auto headline text-center text-white mt-4" min-width="200px"
+              color="white" variant="tonal" type="submit" @click="redirectToPlaylist">
+              Criar PlayList
+            </v-btn>
 
-            <v-card-text>
+            <v-card-text v-else>
               <v-form @submit.prevent="createPlaylist">
                 <div v-for="playlist in allPlaylists" :key="playlist.id">
                   <v-checkbox v-model="selectedPlaylists" :label="playlist.name" :value="playlist.id" color="white"
@@ -132,6 +137,11 @@ export default {
   },
 
   methods: {
+
+    redirectToPlaylist() {
+      this.$router.push("/playlists");
+    },
+
     async fetchMovie(movieId) {
       const response = await this.$http.get(
         "/movie/" + movieId + "?append_to_response=credits,videos,images"

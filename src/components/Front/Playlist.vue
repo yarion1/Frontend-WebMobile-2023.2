@@ -1,15 +1,19 @@
-<template>
-    <div>
+<template >
+    <div class="template-playlist">
         <v-btn class="button-playlist" color="white" variant="tonal" dark @click="openCreatePlaylistModal">Criar
             Playlist</v-btn>
 
         <v-dialog v-model="createPlaylistModal" persistent max-width="600px">
             <v-card class="bg-gray-900">
+                <v-btn icon @click="createPlaylistModal = false" class="position-absolute top-0 right-0 m-2">
+                    <v-icon color="white">mdi-close</v-icon>
+                </v-btn>
+
                 <v-card-title class="headline text-center text-white">Nova Playlist</v-card-title>
 
                 <v-card-text>
                     <v-form @submit.prevent="createPlaylist">
-                        <v-text-field v-model="newPlaylistName" label="Nome da PlayList" color="white"
+                        <v-text-field class="input-playlist" v-model="newPlaylistName" label="Nome da PlayList" color="white"
                             variant="underlined"></v-text-field>
 
                         <v-btn class="mx-auto" min-width="200px" color="white" variant="tonal" type="submit">Criar</v-btn>
@@ -18,8 +22,16 @@
             </v-card>
         </v-dialog>
 
+        <h2 v-if="playlists.length == 0" class="uppercase py-16 ml-4 text-yellow-500 text-lg font-semibold">
+            Nenhuma PlayList Criada
+        </h2>
+
         <div class="mx-5" v-for="playlist in playlists" :key="playlist.id">
-            <h2 v-if="playlist.contents && playlist.contents.length > 0" class="uppercase py-16 text-yellow-500 text-lg font-semibold">
+
+
+
+            <h2 v-if="playlist.contents && playlist.contents.length > 0"
+                class="uppercase py-16 text-yellow-500 text-lg font-semibold">
                 {{ playlist.name }}
             </h2>
 
@@ -33,7 +45,7 @@
             </div>
 
             <div v-else class="uppercase text-white py-4">
-                 PlayList Vazia 
+                PlayList Vazia
             </div>
         </div>
     </div>
@@ -128,6 +140,14 @@ export default {
 .button-playlist {
     margin-top: 15px;
     margin-left: 15px;
+}
+
+.template-playlist {
+    height: 100vh;
+}
+
+.input-playlist {
+    color: white;
 }
 </style>
   
