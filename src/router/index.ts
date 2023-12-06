@@ -28,6 +28,12 @@ const routes = [
         component: () => import("@/components/Front/Favorite.vue"),
       },
       {
+        path: "/playlists",
+        name: "playlists",
+        component: () => import("@/components/Front/Playlist.vue"),
+        meta: { requiresAuth: true },
+      },
+      {
         path: "/movie/:id",
         name: "movie",
         component: () => import("@/components/Movies/Movie.vue"),

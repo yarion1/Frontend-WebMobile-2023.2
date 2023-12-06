@@ -26,17 +26,8 @@
                 <v-card-title class="text-h4">Login</v-card-title>
                 <v-card-text>
                   <v-form @submit.prevent="login">
-                    <v-text-field
-                      v-model="username"
-                      label="Usuário"
-                      variant="underlined"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="password"
-                      label="Senha"
-                      type="password"
-                      variant="underlined"
-                    ></v-text-field>
+                    <v-text-field v-model="username" label="Usuário" variant="underlined"></v-text-field>
+                    <v-text-field v-model="password" label="Senha" type="password" variant="underlined"></v-text-field>
                     <v-col cols="12" class="text-center">
                       <v-btn color="red" dark type="submit">Logar</v-btn>
                       <p class="mt-2">
@@ -80,7 +71,12 @@ export default {
           this.$toast.error("Usuário ou senha inválidos");
         }
       } catch (error) {
-        console.error("Erro ao logar:", error.response.data);
+        if (error.response.data.statusCode === 401) {
+          this.$toast.error("Usuário ou senha inválidos");
+        } else {
+          this.$toast.error("Erro ao efetuar login, tente novamente mais tarde");
+        }
+        console.error("Erro ao logar:",);
       }
     },
   },
