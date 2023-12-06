@@ -82,8 +82,10 @@ export default {
           email: this.email,
           password: this.password,
         });
+        this.$toast.success("Usuário cadastrado com sucesso");
         this.$router.push("/login");
       } catch (error) {
+        this.$toast.success("Erro ao cadastradar usuário, tente novamente mais tarde");
         console.error("Erro ao registrar:", error.response.data);
       }
     },

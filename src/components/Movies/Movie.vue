@@ -5,10 +5,7 @@
       <div class="mt-4 md:w-2/3">
         <h1 class="text-4xl font-semibold">{{ this.movie.title }}</h1>
         <span class="text-gray-500 text-sm flex items-center">
-          <svg
-            class="fill-current text-yellow-500 w-4 h-10 mr-1"
-            viewBox="0 0 24 24"
-          >
+          <svg class="fill-current text-yellow-500 w-4 h-10 mr-1" viewBox="0 0 24 24">
             <g data-name="Layer 2">
               <path
                 d="M17.56 21a1 1 0 01-.46-.11L12 18.22l-5.1 2.67a1 1 0 01-1.45-1.06l1-5.63-4.12-4a1 1 0 01-.25-1 1 1 0 01.81-.68l5.7-.83 2.51-5.13a1 1 0 011.8 0l2.54 5.12 5.7.83a1 1 0 01.81.68 1 1 0 01-.25 1l-4.12 4 1 5.63a1 1 0 01-.4 1 1 1 0 01-.62.18z"
@@ -43,7 +40,7 @@
             </v-btn>
 
             <v-card-title class="headline text-center text-white">PlayLists</v-card-title>
-            
+
             <v-btn v-if="allPlaylists.length == 0" class="mx-auto headline text-center text-white mt-4" min-width="200px"
               color="white" variant="tonal" type="submit" @click="redirectToPlaylist">
               Criar PlayList
@@ -73,13 +70,20 @@
             <span class="ml-2">Play Trailer</span>
           </a>
 
-          <button
-            type="button"
+          <button v-if="favoritesIds.includes(this.movie.id)" type="button"
+            class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
+            @click.prevent="addToFavorites">
+            <img src="@/assets/images/heart-black.png" alt="" class="w-4 h-4 md:w-6 md:h-6" />
+            <span class="ml-2">Favorito</span>
+          </button>
+
+          <button v-else type="button"
             class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
             @click.prevent="addToFavorites">
             <img src="@/assets/images/heart-white.png" alt="" class="w-4 h-4 md:w-6 md:h-6" />
-            <span class="ml-2">Favourite</span>
+            <span class="ml-2">Favorito</span>
           </button>
+
           <a href="#"
             class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
             @click="openModalPlayList">
@@ -123,7 +127,8 @@ export default {
       isVideo: false,
       mediaURL: "",
       allPlaylists: [],
-      selectedPlaylists: []
+      selectedPlaylists: [],
+      favoritesIds: []
     };
   },
 
@@ -138,9 +143,27 @@ export default {
 
   async mounted() {
     this.fetchPlayLists();
+    this.fetchFavorites();
   },
 
   methods: {
+
+    async fetchFavorites() {
+      try {
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        };
+
+        const response = await backendClient.get(`/favorites/check-favorites`, config);
+        this.favoritesIds = response.data.contents
+
+        console.log(this.favoritesIds)
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     redirectToPlaylist() {
       this.$router.push("/playlists");
@@ -171,11 +194,20 @@ export default {
         vote_count: this.movie.vote_count,
       };
 
+      const isChecked = this.favoritesIds.includes(+this.movie.id);
+
       try {
-        const response = await backendClient.patch("/favorites/add", {
-          content: content,
-        });
-        this.$toast.success("Filme removido com sucesso");
+        if (isChecked) {
+          const response = await backendClient.patch(`/favorites/remove/${this.movie.id}`);
+          this.$toast.success("Filme removido dos favoritos");
+          this.fetchFavorites();
+        } else {
+          const response = await backendClient.patch("/favorites/add", {
+            content: content,
+          });
+          this.$toast.success("Filme adicionado aos favoritos");
+          this.fetchFavorites();
+        }
       } catch (error) {
         console.error("Erro ao adicionar aos favoritos:", error.response.data);
       }
@@ -193,13 +225,11 @@ export default {
           },
         };
 
-        const response = await backendClient.get(`/playlists/name`);
+        const response = await backendClient.get(`/playlists/name`, config);
         this.allPlaylists = response.data;
 
         this.allPlaylists.map(item => {
           if (item.contents.includes(this.movie.id)) {
-            console.log(item.id)
-
             this.selectedPlaylists.push(item.id)
           }
         })
