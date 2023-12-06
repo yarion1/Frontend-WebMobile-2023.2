@@ -61,7 +61,7 @@
 
         <div class="mt-3 md:mt-5 flex flex-wrap items-center">
           <a @click.prevent="openYouTubeModel" target="blank"
-            class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black mb-2 md:mb-0 cursor-pointer">
+            class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black mb-2 md:mb-0 cursor-pointer ml-2">
             <svg class="w-4 h-4 md:w-6 md:h-6 fill-current" viewBox="0 0 24 24">
               <path d="M0 0h24v24H0z" fill="none" />
               <path
@@ -76,11 +76,12 @@
             <img src="@/assets/images/heart-white.png" alt="" class="w-4 h-4 md:w-6 md:h-6" />
             <span class="ml-2">Favourite</span>
           </a>
-          <v-btn
+
+          <a href="#"
             class="rounded bg-yellow-500 px-3 md:px-5 py-2 md:py-3 inline-flex text-black ml-2 md:ml-5 mb-2 md:mb-0 cursor-pointer"
             @click="openModalPlayList">
             <span class="ml-2">Adicionar playlist</span>
-          </v-btn>
+          </a>
         </div>
       </div>
 
