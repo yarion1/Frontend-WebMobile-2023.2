@@ -6,7 +6,7 @@
         class="hover:opacity-75 tansition easy-in-out duration-150"
       />
     </router-link>
-    <h3>{{ movie.title }}</h3>
+    <h3>{{movie.title.length <=20 ? movie.title : (movie.title).slice(0,30)+'...'}}</h3>
     <div class="flex">
       <svg
         class="fill-current text-yellow-500 w-4 h-4 mt-1"
@@ -18,18 +18,29 @@
             data-name="star"
           />
         </g></svg><span class="ml-2"
-        >{{ movie.vote_average * 10 }}% | {{ movie.release_date }} </span
+        >{{ (movie.vote_average * 10).toFixed(1) }}% | {{ movie.release_date }} </span
       ><br />
     </div>
-    <span class="text-sm text-gray-500">
-      <span :key="genre" v-for="(genre, index) in movie.genre_ids">
-        {{ genreTypeName(genre, index) }}
+    <v-col cols="8" lg="12">
+      <span class="text-sm text-gray-500">
+        <span :key="genre" v-for="(genre, index) in movie.genre_ids">
+          {{ genreTypeName(genre, index) }}
+        </span>
       </span>
-    </span>
+      <button
+        v-if="IsfavoritePage"
+        @click="removeFromFavorites(movie.id)"
+        class="rounded bg-red-500 px-5 md:px-5 py-2 md:py-3 inline-flex text-black ml-0 md:ml-5 mb-2 md:mb-0 cursor-pointer"
+        block
+      >
+        Remover dos favoritos
+      </button>
+    </v-col>
   </div>
 </template>
 
 <script>
+import { backendClient } from "@/services/api";
 export default {
   props: {
     movie: {
@@ -37,6 +48,10 @@ export default {
     },
     genres: {
       required: true,
+    },
+    IsfavoritePage: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -57,6 +72,17 @@ export default {
           }
         }
       }
+    },
+    removeFromFavorites(movieId) {
+      backendClient
+        .patch(`/favorites/remove/${movieId}`)
+        .then((response) => {
+          this.$emit("remove-favorite", movieId);
+          this.$toast.success('Filme adcionado com sucesso');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

@@ -1,8 +1,8 @@
 <template>
   <div class="login-background">
     <v-app class="bg-transparent">
-      <v-app-bar app color="#111111" dark>
-        <v-toolbar-title class="text-center" style="color: red">
+      <v-app-bar app color="#111111" dark style="height: 74px;">
+        <v-toolbar-title class="text-center" style="color: red;">
           Cinescope
         </v-toolbar-title>
       </v-app-bar>
@@ -38,9 +38,10 @@
                       variant="underlined"
                     ></v-text-field>
                     <v-col cols="12" class="text-center">
-                      <v-btn color="primary" dark type="submit">Logar</v-btn>
+                      <v-btn color="red" dark type="submit">Logar</v-btn>
                       <p class="mt-2">
-                        Ainda não tem uma conta? <a href="#">Clique aqui</a>
+                        Ainda não tem uma conta?
+                        <router-link to="/register">Clique aqui</router-link>
                       </p>
                     </v-col>
                   </v-form>
@@ -76,7 +77,7 @@ export default {
           localStorage.setItem("access_token", response.data.access_token);
           this.$router.push("/home");
         } else {
-          console.error("Login failed");
+          this.$toast.error("Usuário ou senha inválidos");
         }
       } catch (error) {
         console.error("Erro ao logar:", error.response.data);
@@ -89,11 +90,9 @@ export default {
 <style scoped>
 .login-background {
   background-image: url("../assets/bg-login.png");
-  /* Substitua o caminho pela sua imagem de fundo */
   background-size: cover;
   background-position: center;
   height: 100vh;
-  /* Isso define a altura para cobrir toda a tela */
 }
 
 .main {
@@ -109,9 +108,8 @@ export default {
 .text-h4 {
   background: transparent;
   font-size: 1.5rem;
-  /* Tamanho do texto h4 */
   word-wrap: break-word;
   text-align: center;
-  /* Permite quebrar a linha caso ultrapasse o tamanho */
+
 }
 </style>

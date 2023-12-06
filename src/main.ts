@@ -6,6 +6,8 @@ import {tmdbClient} from './services/api';
 import { registerPlugins } from '@/plugins';
 import './assets/css/style.css';
 import router from './router';
+import Toast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-default.css';
 
 const app = createApp(App);
 
@@ -15,4 +17,4 @@ app.config.globalProperties.$http = tmdbClient;
 // Registrando outros plugins
 registerPlugins(app);
 
-app.use(router).mount('#app');
+app.use(router).use(Toast).mount('#app');
